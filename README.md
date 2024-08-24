@@ -5,6 +5,8 @@ annoy-node
 
 Node bindings for [Annoy](https://github.com/spotify/annoy), an efficient Approximate Nearest Neighbors implementation written in C++.
 
+**(this fork) Version 5.0.0 works upto Node 20**
+
 Version 4.0.0 requires Node 14 or Node 16 and does not yet work on 18.
 
 Status: Tests pass, including one that loads 3 million vectors, but API coverage is not complete. Run on OS X and Linux with Node 8, 10, and 12. Not tried on Windows yet. Support for Node 6.3 and 4.6 ended at version 2.0.1 of this package.

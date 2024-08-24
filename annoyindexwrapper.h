@@ -1,43 +1,46 @@
 #ifndef ANNOYINDEXWRAPPER_H
 #define ANNOYINDEXWRAPPER_H
 
-#include <nan.h>
+#include <napi.h>
 #include "annoylib.h"
 
-class AnnoyIndexWrapper : public Nan::ObjectWrap {
- public:
-  static void Init(v8::Local<v8::Object> exports);
-  int getDimensions();
-  AnnoyIndexInterface<int, float> *annoyIndex;
+class AnnoyIndexWrapper : public Napi::ObjectWrap<AnnoyIndexWrapper> {
+public:
+    static Napi::Object Init(Napi::Env env, Napi::Object exports);
+    int getDimensions() const;
+    AnnoyIndexInterface<int, float> *annoyIndex;
 
- private:
-  explicit AnnoyIndexWrapper(int dimensions, const char *metricString);
-  virtual ~AnnoyIndexWrapper();
+    explicit AnnoyIndexWrapper(const Napi::CallbackInfo &callbackInfo);
+    virtual ~AnnoyIndexWrapper();
+private:
 
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void AddItem(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Build(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Save(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Load(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Unload(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetItem(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetNNSByVector(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetNNSByItem(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetNItems(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetDistance(const Nan::FunctionCallbackInfo<v8::Value>& info);
 
-  static Nan::Persistent<v8::Function> constructor;
-  static bool getFloatArrayParam(const Nan::FunctionCallbackInfo<v8::Value>& info, 
-    int paramIndex, float *vec);
-  static void setNNReturnValues(
-    int numberOfNeighbors, bool includeDistances,
-    const std::vector<int>& nnIndexes, const std::vector<float>& distances,
-    const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void getSupplementaryGetNNsParams(
-    const Nan::FunctionCallbackInfo<v8::Value>& info,
-    int& numberOfNeighbors, int& searchK, bool& includeDistances);
+    Napi::Object AddItem(const Napi::CallbackInfo &info);
+    Napi::Object Build(const Napi::CallbackInfo &info) const;
+    Napi::Object Save(const Napi::CallbackInfo &info) const;
+    Napi::Object Load(const Napi::CallbackInfo &info) const;
+    Napi::Object Unload(const Napi::CallbackInfo &info) const;
+    Napi::Object GetItem(const Napi::CallbackInfo &info) const;
+    Napi::Object GetNNSByVector(const Napi::CallbackInfo &info);
+    Napi::Object GetNNSByItem(const Napi::CallbackInfo &info);
+    Napi::Object GetNItems(const Napi::CallbackInfo &info) const;
+    Napi::Object GetDistance(const Napi::CallbackInfo &info) const;
 
-  int annoyDimensions;
+    static Napi::FunctionReference *constructor;
+
+    bool getFloatArrayParam(const Napi::CallbackInfo &info,
+                            int paramIndex, float *vec);
+
+    Napi::Object setNNReturnValues(
+            int numberOfNeighbors, bool includeDistances,
+            const std::vector<int> &nnIndexes, const std::vector<float> &distances,
+            const Napi::CallbackInfo &info);
+
+    void getSupplementaryGetNNsParams(
+            const Napi::CallbackInfo &info,
+            int &numberOfNeighbors, int &searchK, bool &includeDistances);
+
+    int annoyDimensions;
 };
 
 #endif
