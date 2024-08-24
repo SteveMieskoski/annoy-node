@@ -5,7 +5,7 @@ annoy-node
 
 Node bindings for [Annoy](https://github.com/spotify/annoy), an efficient Approximate Nearest Neighbors implementation written in C++.
 
-**(this fork) Version 5.0.0 works upto Node 20**
+**(this fork) Version 5.0.0 works up to Node 20**
 
 Version 4.0.0 requires Node 14 or Node 16 and does not yet work on 18.
 
