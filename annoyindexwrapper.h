@@ -12,8 +12,11 @@ public:
 
     explicit AnnoyIndexWrapper(const Napi::CallbackInfo &callbackInfo);
     virtual ~AnnoyIndexWrapper();
+
+
 private:
 
+    static Napi::FunctionReference *constructor;
 
     Napi::Object AddItem(const Napi::CallbackInfo &info);
     Napi::Object Build(const Napi::CallbackInfo &info) const;
@@ -26,7 +29,7 @@ private:
     Napi::Object GetNItems(const Napi::CallbackInfo &info) const;
     Napi::Object GetDistance(const Napi::CallbackInfo &info) const;
 
-    static Napi::FunctionReference *constructor;
+
 
     bool getFloatArrayParam(const Napi::CallbackInfo &info,
                             int paramIndex, float *vec);

@@ -29,6 +29,10 @@ Napi::Object AnnoyIndexWrapper::Init(Napi::Env env, Napi::Object exports) {
     return exports;
 }
 
+AnnoyIndexWrapper::~AnnoyIndexWrapper() {
+    delete annoyIndex;
+}
+
 AnnoyIndexWrapper::AnnoyIndexWrapper(const CallbackInfo &callbackInfo) :
         ObjectWrap(callbackInfo), annoyDimensions(callbackInfo[0].As<Napi::Number>()) {
 
